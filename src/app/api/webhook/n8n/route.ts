@@ -55,8 +55,13 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      // Normaliza complexidade para uppercase
-      const complexidade = payload.complexidade.toUpperCase() as
+      // Normaliza complexidade para uppercase e remove acentos
+      const complexidadeNormalizada = payload.complexidade
+        .toUpperCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '') // Remove acentos
+
+      const complexidade = complexidadeNormalizada as
         | 'BAIXA'
         | 'MEDIA'
         | 'ALTA'
@@ -67,6 +72,7 @@ export async function POST(request: NextRequest) {
           {
             error: 'Complexidade inválida',
             allowed: ['BAIXA', 'MEDIA', 'ALTA'],
+            received: complexidade,
           },
           { status: 400 }
         )
