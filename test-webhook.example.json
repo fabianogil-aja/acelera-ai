@@ -1,0 +1,12 @@
+{
+  "titulo": "Exemplo de Assistente",
+  "link": "https://gemini.google.com/gem/exemplo123",
+  "criador_nome": "João Silva",
+  "criador_email": "joao.silva@exemplo.com.br",
+  "criador_setor": "Tecnologia",
+  "data_criacao": "2025-01-08",
+  "problema_que_resolve": "Exemplo de problema que o assistente resolve. Descreva aqui o contexto e a necessidade.",
+  "o_que_faz": "Exemplo do que o assistente faz. Explique as funcionalidades principais.",
+  "como_usar": "Exemplo de como usar o assistente. Forneça instruções claras passo a passo.",
+  "complexidade": "BAIXA"
+}

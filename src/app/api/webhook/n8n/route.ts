@@ -18,6 +18,26 @@ interface N8nWebhookPayload {
 
 export async function POST(request: NextRequest) {
   try {
+    // SEGURANÇA: Validar token de webhook
+    const webhookToken = request.headers.get('x-webhook-token')
+    const expectedToken = process.env.N8N_WEBHOOK_TOKEN
+
+    if (!expectedToken) {
+      console.error('N8N_WEBHOOK_TOKEN não configurado no ambiente')
+      return NextResponse.json(
+        { error: 'Configuração de segurança inválida' },
+        { status: 500 }
+      )
+    }
+
+    if (!webhookToken || webhookToken !== expectedToken) {
+      console.warn('Tentativa de acesso ao webhook sem token válido')
+      return NextResponse.json(
+        { error: 'Não autorizado' },
+        { status: 401 }
+      )
+    }
+
     const body = await request.json()
 
     // Valida se é array ou objeto único
@@ -108,8 +128,8 @@ export async function POST(request: NextRequest) {
           },
         })
       } catch (slackError) {
-        // Não quebra se o Slack falhar
-        console.error('Erro ao enviar notificação Slack:', slackError)
+        // Não quebra se o Slack falhar - log sanitizado
+        console.error('Erro ao enviar notificação Slack')
       }
 
       resultados.push({
@@ -128,11 +148,16 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     )
   } catch (error) {
-    console.error('Erro no webhook n8n:', error)
+    // Log sanitizado - não expõe credenciais ou dados sensíveis
+    console.error('Erro no webhook n8n')
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Stack trace:', error instanceof Error ? error.message : 'Unknown')
+    }
+
     return NextResponse.json(
       {
         error: 'Erro ao processar webhook',
-        details: error instanceof Error ? error.message : 'Erro desconhecido',
+        // NUNCA retornar error.message em produção
       },
       { status: 500 }
     )
