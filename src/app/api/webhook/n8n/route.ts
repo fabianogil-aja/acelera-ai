@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { criarAssistente } from '@/lib/google-sheets'
+import { criarAssistente, listarAssistentes } from '@/lib/google-sheets'
 import { enviarNotificacaoSlack } from '@/lib/slack'
 
 // Schema do JSON esperado do n8n
@@ -102,6 +102,29 @@ export async function POST(request: NextRequest) {
       const criadorEmail =
         payload.criador_email ||
         `${payload.criador_nome.toLowerCase().replace(/\s+/g, '.')}@aja.com.br`
+
+      // PROTEÇÃO CONTRA DUPLICATAS: Verifica se já existe assistente com mesmo título e criador
+      const assistentesExistentes = await listarAssistentes()
+      const jaExiste = assistentesExistentes.find(
+        (a) =>
+          a.titulo === payload.titulo &&
+          a.criador_nome === payload.criador_nome &&
+          a.status === 'PENDENTE'
+      )
+
+      if (jaExiste) {
+        console.warn(
+          `Assistente duplicado ignorado: ${payload.titulo} - ${payload.criador_nome}`
+        )
+        // Retorna o assistente existente em vez de criar duplicata
+        resultados.push({
+          id: jaExiste.id,
+          titulo: jaExiste.titulo,
+          status: jaExiste.status,
+          duplicado: true,
+        })
+        continue // Pula para o próximo payload
+      }
 
       // Cria o assistente
       const assistente = await criarAssistente({
