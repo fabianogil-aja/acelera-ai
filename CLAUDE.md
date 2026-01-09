@@ -28,7 +28,7 @@ git push
 ## Sobre o Projeto
 
 **Nome:** Acelera AI - Sistema de Gestão
-**Versão:** 1.0.0-alpha.1
+**Versão:** 1.0.0-alpha.2
 **Status:** MVP em desenvolvimento (Alpha)
 
 ### Resumo
@@ -231,6 +231,29 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 - TabelaAssistentes, FiltrosAssistentes
 - FormCadastro, TimelineEventos
 - TabelaPendencias, RankingCriadores
+
+### Sessão 09/01/2026 - Parte 2 (v1.0.0-alpha.2)
+
+**Integração N8N:**
+- Configurado webhook `/api/webhook/n8n` com autenticação por token
+- Implementado fluxo completo: Slack → N8N (AI Agent) → Webhook → Google Sheets
+- Resolvido problema de JSON no N8N usando "Using Fields Below"
+- Normalização de complexidade (remove acentos, converte para uppercase)
+
+**Melhorias de Segurança:**
+- Adicionado token de autenticação para webhook (`N8N_WEBHOOK_TOKEN`)
+- Logs sanitizados (sem exposição de credenciais)
+- Headers de segurança configurados (X-Frame-Options, XSS Protection, etc.)
+- CSP temporariamente desabilitado para debugging
+
+**Otimizações:**
+- Desabilitado cache nas APIs (`dynamic = 'force-dynamic'`)
+- APIs sempre buscam dados atualizados do Google Sheets
+- Script de limpeza de dados de teste criado
+
+**Arquivos Criados:**
+- `scripts/limpar-dados-teste.ts` - Script para limpar registros de teste
+- `SECURITY.md` - Documentação de segurança e configuração
 
 ---
 

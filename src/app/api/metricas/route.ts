@@ -4,6 +4,10 @@ import { startOfWeek, subWeeks, format, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import type { AssistenteStatus } from '@/lib/types'
 
+// Desabilita cache para sempre buscar dados atualizados
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 // GET /api/metricas - Retorna métricas do dashboard
 export async function GET() {
   try {

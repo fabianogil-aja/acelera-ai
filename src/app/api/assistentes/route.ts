@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { listarAssistentes, criarAssistente } from '@/lib/google-sheets'
 import type { FiltrosAssistente, CriarAssistenteInput } from '@/lib/types'
 
+// Desabilita cache para sempre buscar dados atualizados
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 // GET /api/assistentes - Lista assistentes com filtros
 export async function GET(request: NextRequest) {
   try {
