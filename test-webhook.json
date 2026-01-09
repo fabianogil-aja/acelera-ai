@@ -1,0 +1,12 @@
+{
+  "titulo": "Acelera CS - Diagnóstico & Follow-up",
+  "link": "https://gemini.google.com/gem/1NR6NhU7ccbpGKN_Qu77dPGkM9w7rj7jN?usp=sharing",
+  "criador_nome": "Beatriz Nunes",
+  "criador_email": "beatriz.nunes@aja.com.br",
+  "criador_setor": "Customer Success",
+  "data_criacao": "2025-01-08",
+  "problema_que_resolve": "Alunos perguntam todo dia onde achar a segunda via do boleto. São ~30 tickets/dia só com isso. Time gasta 2h respondendo a mesma coisa.",
+  "o_que_faz": "Transforma as calls de mentoria em registros executivos para o Zoho CRM e sequências de engajamento para o WhatsApp.",
+  "como_usar": "Sempre que você terminar uma call, basta colar a transcrição/resumo do Gemini e dizer: 'Gere o diagnóstico da call de hoje' + anexo ou cópia do Gemini da reunião",
+  "complexidade": "BAIXA"
+}
